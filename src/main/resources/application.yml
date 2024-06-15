@@ -1,0 +1,15 @@
+spring:
+  datasource:
+   url: jdbc:postgresql://localhost:5432/online_video_training
+   username: postgres
+   password: Lyhour24
+  jpa:
+   properties:
+    hibernate:
+    dialect: org.hibernate.dialect.PostgreSQLDialect
+    globally_quoted_identifiers: true
+   hibernate:
+    ddl-auto: update
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml

@@ -1,0 +1,32 @@
+databaseChangeLog:
+- changeSet:
+    id: 002_create_user_table
+    author: kuylyhour24@gmail.com
+    changes:
+    - createTable:
+        tableName: _users
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: username
+            type: VARCHAR(50)
+        - column:
+            name: password
+            type: VARCHAR(50)
+        - column:
+            name: phone_number
+            type: Integer
+        - column:
+            name: gender
+            type: SMALLINT
+        - column:
+            name: role
+            type: SMALLINT
+        - column:
+            name: join_date
+            type: DateTime

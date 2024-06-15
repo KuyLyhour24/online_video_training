@@ -1,0 +1,77 @@
+databaseChangeLog:
+- changeSet:
+    id: 001_init_db_structure
+    author: kuylyhour24@gmail.com
+    changes:
+    
+    - createTable:
+        tableName: categories
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+            name: category_id
+            type: BIGINT
+        - column:
+            name: category_name
+            type: VARCHAR(50)
+    - createTable:
+        tableName: courses
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              primaryKeyName: id
+              nullable: false
+            name: id
+            type: BIGINT
+        - column:
+            name: name
+            type: VARCHAR(50)
+        - column:
+            name: category_id
+            type: BIGINT
+            constraints:
+              - foreignKeyName: fk_courses_categories
+                references: categories(category_id)
+    - createTable:
+        tableName: videos
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: title
+            type: VARCHAR(50)
+        - column:
+            name: category_id
+            type: BIGINT
+            constraints:
+              - foreignKeyName: fk_courses_videos
+                references: courses(id)
+        - column:
+            name: description
+            type: VARCHAR(50)
+        - column:
+            name: video_link
+            type: VARCHAR(50)
+        - column:
+            name: image_link
+            type: VARCHAR(50)
+        - column:
+            name: create_date
+            type: DateTime
+        - column:
+            name: modified_date
+            type: DateTime
+        - column:
+            name: create_by
+            type: VARCHAR(50)
+        - column:
+            name: modified_by
+            type: VARCHAR(50)
