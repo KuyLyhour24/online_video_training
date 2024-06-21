@@ -2,12 +2,19 @@ package com.kuylyhour.online_video_training.service.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.management.RuntimeErrorException;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.kuylyhour.online_video_training.entity.Category;
+import com.kuylyhour.online_video_training.exception.ApiException;
+import com.kuylyhour.online_video_training.exception.DuplicateValueException;
 import com.kuylyhour.online_video_training.exception.ResourceNotFoundException;
 import com.kuylyhour.online_video_training.repository.CategoryRepository;
 import com.kuylyhour.online_video_training.service.CategoryService;
@@ -25,6 +32,9 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public Category create(Category category) {
+		if(categoryRepository.findByName(category.getName()).isPresent()) {
+			throw new DuplicateValueException("Category", category.getName());
+		}
 		return categoryRepository.save(category);
 	}
 
@@ -48,11 +58,14 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public void delete(Long id) {
-		categoryRepository.deleteById(id);
+		Category byId = getById(id);
+		if(byId !=null) {
+			categoryRepository.deleteById(id);
+		}
 	}
 
 	@Override
-	public Page<Category> getCategory(Map<String, String> params) {
+	public Page<Category> getCategoryPage(Map<String, String> params) {
 		CategoryFilter categoryFilter = new CategoryFilter();
 		
 		if(params.containsKey("name")) {
@@ -71,7 +84,7 @@ public class CategoryServiceImpl implements CategoryService{
 		if(params.containsKey(PageUtil.PAGE_NUMBER)) {
 			pageNumber = Integer.parseInt(params.get(PageUtil.PAGE_NUMBER));
 		}
-		CategorySpec categorySpec = new CategorySpec(categoryFilter);
+		Specification<Category> categorySpec = new CategorySpec(categoryFilter);
 		Pageable pageable= PageUtil.getPageable(pageNumber, pageLimit);
 		Page<Category> page = categoryRepository.findAll(categorySpec, pageable);
 		return page;

@@ -16,7 +16,7 @@ public interface CategoryService {
 	
 	List<Category> getCategory(String name);
 	
-	Page<Category> getCategory(Map<String,String> params);
+	Page<Category> getCategoryPage(Map<String,String> params);
 	
 	void delete(Long id);
 
