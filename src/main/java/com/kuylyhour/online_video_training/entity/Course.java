@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
 @Entity
@@ -18,11 +19,13 @@ public class Course {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="course_name")
+	@Column(name="name")
+	
 	private String name;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="category_id")
-	private Category catrgoryId;
+	private Category category;
 
 }

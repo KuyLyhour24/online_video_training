@@ -32,8 +32,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.kuylyhour.online_video_training.entity.Category;
 import com.kuylyhour.online_video_training.helper.CategoryServiceHelper;
 import com.kuylyhour.online_video_training.mapper.CategoryMapper;
+import com.kuylyhour.online_video_training.mapper.CourseMapper;
 import com.kuylyhour.online_video_training.repository.CategoryRepository;
 import com.kuylyhour.online_video_training.service.CategoryService;
+import com.kuylyhour.online_video_training.service.CourseService;
 import com.kuylyhour.online_video_training.service.util.PageUtil;
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
@@ -41,6 +43,8 @@ public class CategoryControllerTest {
 
 	@Mock
 	private CategoryService categoryService;
+	@Mock
+	private CourseMapper courseMapper;
 	
 
 	@Spy
@@ -52,7 +56,7 @@ public class CategoryControllerTest {
 	
 	@BeforeEach
 	public void setUp() {
-		controller = new CategoryController(categoryService);
+		controller = new CategoryController(categoryService, courseMapper);
 		
 	}
 

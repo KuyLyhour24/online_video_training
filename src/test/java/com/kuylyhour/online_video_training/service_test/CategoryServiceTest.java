@@ -29,6 +29,7 @@ import com.kuylyhour.online_video_training.entity.Category;
 import com.kuylyhour.online_video_training.helper.CategoryServiceHelper;
 import com.kuylyhour.online_video_training.repository.CategoryRepository;
 import com.kuylyhour.online_video_training.service.CategoryService;
+import com.kuylyhour.online_video_training.service.CourseService;
 import com.kuylyhour.online_video_training.service.impl.CategoryServiceImpl;
 import com.kuylyhour.online_video_training.spec.CategorySpec;
 
@@ -37,12 +38,15 @@ public class CategoryServiceTest {
 
 	@Mock
 	private CategoryRepository categoryRepository;
+	
+	@Mock
+	private CourseService courseService;
 
 	private CategoryService categoryService;
 
 	@BeforeEach
 	public void setUp() {
-		categoryService = new CategoryServiceImpl(categoryRepository);
+		categoryService = new CategoryServiceImpl(categoryRepository, courseService);
 
 	}
 
@@ -91,7 +95,6 @@ public class CategoryServiceTest {
 		
 		when(categoryRepository.findById(id)).thenReturn(Optional.of(categories.get(0)));
 		categoryService.delete(id);
-		
 		Mockito.verify(categoryRepository).deleteById(id);
 
 	}

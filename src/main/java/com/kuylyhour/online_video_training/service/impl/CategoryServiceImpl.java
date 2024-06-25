@@ -2,22 +2,21 @@ package com.kuylyhour.online_video_training.service.impl;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.management.RuntimeErrorException;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.kuylyhour.online_video_training.entity.Category;
+import com.kuylyhour.online_video_training.entity.Course;
 import com.kuylyhour.online_video_training.exception.ApiException;
-import com.kuylyhour.online_video_training.exception.DuplicateValueException;
 import com.kuylyhour.online_video_training.exception.ResourceNotFoundException;
+import com.kuylyhour.online_video_training.exception.SQLException;
 import com.kuylyhour.online_video_training.repository.CategoryRepository;
 import com.kuylyhour.online_video_training.service.CategoryService;
+import com.kuylyhour.online_video_training.service.CourseService;
 import com.kuylyhour.online_video_training.service.util.PageUtil;
 import com.kuylyhour.online_video_training.spec.CategoryFilter;
 import com.kuylyhour.online_video_training.spec.CategorySpec;
@@ -29,19 +28,18 @@ import lombok.RequiredArgsConstructor;
 public class CategoryServiceImpl implements CategoryService{
 	
 	private final CategoryRepository categoryRepository;
+	private final CourseService courseService;
+	
 
 	@Override
 	public Category create(Category category) {
-		if(categoryRepository.findByName(category.getName()).isPresent()) {
-			throw new DuplicateValueException("Category", category.getName());
-		}
 		return categoryRepository.save(category);
 	}
 
 	@Override
-	public Category getById(Long categoryId) {
-		return categoryRepository.findById(categoryId)
-				.orElseThrow(()-> new ResourceNotFoundException("Category", categoryId));
+	public Category getById(Long id) {
+		return categoryRepository.findById(id)
+				.orElseThrow(()-> new ResourceNotFoundException("Category", id));
 	}
 
 	@Override
@@ -58,8 +56,12 @@ public class CategoryServiceImpl implements CategoryService{
 
 	@Override
 	public void delete(Long id) {
-		Category byId = getById(id);
-		if(byId !=null) {
+		Course course = courseService.getById(id);
+		if(course!=null){
+			throw new SQLException("Category", id);
+		}
+		Category categoryId = getById(id);
+		if(categoryId !=null) {
 			categoryRepository.deleteById(id);
 		}
 	}

@@ -17,10 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kuylyhour.online_video_training.dto.CategoryDTO;
+import com.kuylyhour.online_video_training.dto.CourseDTO;
 import com.kuylyhour.online_video_training.dto.PageDTO;
 import com.kuylyhour.online_video_training.entity.Category;
+import com.kuylyhour.online_video_training.entity.Course;
 import com.kuylyhour.online_video_training.mapper.CategoryMapper;
+import com.kuylyhour.online_video_training.mapper.CourseMapper;
 import com.kuylyhour.online_video_training.service.CategoryService;
+import com.kuylyhour.online_video_training.service.CourseService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +34,8 @@ import lombok.RequiredArgsConstructor;
 public class CategoryController {
 	
 	private final CategoryService categoryService;
+	private CourseService courseService;
+	private final CourseMapper courseMapper;
 	
 	@PostMapping
 	public ResponseEntity<?> createCategory(@RequestBody CategoryDTO dto){
@@ -66,6 +72,15 @@ public class CategoryController {
 	public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id){
 		categoryService.delete(id);
 		return ResponseEntity.ok().build();
+	}
+	@GetMapping("{id}/course")
+	public ResponseEntity<?> getCourseByCategoryId(@PathVariable("id") Long id){
+		List<Course> course = courseService.getByCategoryId(id);
+		List<CourseDTO> list = course.stream()
+		.map(courseMapper::toCourseDTO) //Method Reference or we can use .map(model -> modelMapper.toModelDTO(model))
+		.toList();
+		return ResponseEntity.ok(list);
+	
 	}
 	
 	

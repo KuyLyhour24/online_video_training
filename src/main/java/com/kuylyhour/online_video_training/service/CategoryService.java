@@ -10,7 +10,7 @@ import com.kuylyhour.online_video_training.entity.Category;
 public interface CategoryService {
 	
 	Category create(Category category);
-	Category getById(Long categoryId);
+	Category getById(Long Id);
 	
 	Category update(Category category, Long id);
 	
