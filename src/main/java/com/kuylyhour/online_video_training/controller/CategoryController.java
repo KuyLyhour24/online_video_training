@@ -41,7 +41,7 @@ public class CategoryController {
 	public ResponseEntity<?> getById(@PathVariable("id") Long id){
 		Category category = categoryService.getById(id);
 		return ResponseEntity.ok(CategoryMapper.INSTANCE.toCategoryDTO(category));
-		
+	
 	}
 	@GetMapping("/list")
 	public ResponseEntity<?> getCategory(@RequestParam("name") String name){
@@ -52,12 +52,12 @@ public class CategoryController {
 	}
 	@GetMapping
 	public ResponseEntity<?> getCategory(@RequestParam Map<String, String> params){
-		Page<Category> page = categoryService.getCategory(params);
+		Page<Category> page = categoryService.getCategoryPage(params);
 		PageDTO pageDTO = new PageDTO(page);
 		return ResponseEntity.ok(pageDTO);
 	}
 	@PutMapping("{id}")
-	public ResponseEntity<?> getCategory(@PathVariable("id") Long id, @RequestBody CategoryDTO categoryDTO){
+	public ResponseEntity<?> updateCategory(@PathVariable("id") Long id, @RequestBody CategoryDTO categoryDTO){
 		Category category = CategoryMapper.INSTANCE.toCategory(categoryDTO);
 		Category update = categoryService.update(category, id);
 		return ResponseEntity.ok(CategoryMapper.INSTANCE.toCategoryDTO(update));
