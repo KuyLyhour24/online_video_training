@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 public class CourseServiceImpl implements CourseService {
 
 	private final CourseRepository courseRepository;
-	private  CategoryService categoryService;
 	
 	@Override
 	public Course save(Course course) {
@@ -39,22 +38,12 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public List<Course> getCourse(String name) {
-		return courseRepository.findByNameContaining(name.toUpperCase());
-	}
-
-	@Override
 	public void delete(Long id) {
 		Course course = getById(id);
 		if(course !=null) {
 			courseRepository.deleteById(id);
 		}
 		
-	}
-	@Override
-	public List<Course> getByCategoryId(Long id) {
-		categoryService.getById(id);
-		return courseRepository.findCourseByCategoryId(id);
 	}
 	
 

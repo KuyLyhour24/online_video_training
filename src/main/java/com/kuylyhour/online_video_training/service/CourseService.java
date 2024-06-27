@@ -11,9 +11,6 @@ public interface CourseService {
 	
 	Course update(Course course, Long id);
 	
-	List<Course> getByCategoryId(Long id);
-	List<Course> getCourse(String name);
-	
 	//Page<Category> getCategoryPage(Map<String,String> params);
 	
 	void delete(Long id);

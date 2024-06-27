@@ -1,12 +1,10 @@
 package com.kuylyhour.online_video_training.service_test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
@@ -14,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,9 +22,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import com.kuylyhour.online_video_training.dto.CourseDTO;
 import com.kuylyhour.online_video_training.entity.Category;
-import com.kuylyhour.online_video_training.helper.CategoryServiceHelper;
+import com.kuylyhour.online_video_training.entity.Course;
+import com.kuylyhour.online_video_training.helper.ServiceHelper;
+import com.kuylyhour.online_video_training.mapper.CourseMapper;
 import com.kuylyhour.online_video_training.repository.CategoryRepository;
+import com.kuylyhour.online_video_training.repository.CourseRepository;
 import com.kuylyhour.online_video_training.service.CategoryService;
 import com.kuylyhour.online_video_training.service.CourseService;
 import com.kuylyhour.online_video_training.service.impl.CategoryServiceImpl;
@@ -38,7 +39,10 @@ public class CategoryServiceTest {
 
 	@Mock
 	private CategoryRepository categoryRepository;
-	
+	@Mock
+	private CourseRepository courseRepository;
+	@Mock
+	private CourseMapper courseMapper;
 	@Mock
 	private CourseService courseService;
 
@@ -46,14 +50,14 @@ public class CategoryServiceTest {
 
 	@BeforeEach
 	public void setUp() {
-		categoryService = new CategoryServiceImpl(categoryRepository, courseService);
+		categoryService = new CategoryServiceImpl(categoryRepository, courseService, courseRepository);
 
 	}
 
 	@Test
 	public void testCreate() {
 		// Given
-		List<Category> categories = CategoryServiceHelper.getCategory();
+		List<Category> categories = ServiceHelper.getCategory();
 		Category category = categories.get(0);
 		// When
 		when(categoryRepository.save(any())).thenReturn(category);
@@ -65,7 +69,7 @@ public class CategoryServiceTest {
 
 	@Test
 	public void testGetById() {
-		List<Category> categories = CategoryServiceHelper.getCategory();
+		List<Category> categories = ServiceHelper.getCategory();
 		Category category = categories.get(0);
 
 		when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
@@ -78,7 +82,7 @@ public class CategoryServiceTest {
 	@Test
 	public void testGetCategory() {
 
-		List<Category> categories = CategoryServiceHelper.getCategory();
+		List<Category> categories = ServiceHelper.getCategory();
 
 		when(categoryRepository.findByNameContaining(any())).thenReturn(categories);
 
@@ -90,7 +94,7 @@ public class CategoryServiceTest {
 
 	@Test
 	public void testDelete() {
-		List<Category> categories = CategoryServiceHelper.getCategory();
+		List<Category> categories = ServiceHelper.getCategory();
 		Long id = categories.get(0).getId();
 		
 		when(categoryRepository.findById(id)).thenReturn(Optional.of(categories.get(0)));
@@ -101,7 +105,7 @@ public class CategoryServiceTest {
 
 	@Test
 	public void testUpdate() {
-		List<Category> categories = CategoryServiceHelper.getCategory();
+		List<Category> categories = ServiceHelper.getCategory();
 		Category category = categories.get(0);
 
 		when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
@@ -116,16 +120,33 @@ public class CategoryServiceTest {
 
 	@Test
 	public void testGetCategroyByPage() {
-		List<Category> categories = CategoryServiceHelper.getCategory();
+		List<Category> categories = ServiceHelper.getCategory();
 		when(categoryRepository.findAll(any(CategorySpec.class), any(Pageable.class)))
 				.thenReturn(new PageImpl<>(categories));
 
 		Map<String, String> params = new HashMap<>();
 
 		Page<Category> categoryPage = categoryService.getCategoryPage(params);
-
+		
 		assertThat(categoryPage).isNotNull();
 		assertEquals(3, categoryPage.getContent().size());
 	}
-
+	
+	@Test
+	public void testGetCourseByCategoryId() {
+		List<Category> categories = ServiceHelper.getCategory();
+		
+		List<Course> course = ServiceHelper.getCourse();
+		
+		when(categoryRepository.findById(1L)).thenReturn(Optional.of(categories.get(0)));
+		when(courseRepository.findCourseByCategoryId(1L)).thenReturn(course);
+		
+		List<Course> courseByCategoryId = categoryService.getCourseByCategoryId(1L);
+		
+		//assertEquals(2, courseByCategoryId.size());
+		assertEquals("Java", courseByCategoryId.get(0).getName());
+		assertEquals("Python", courseByCategoryId.get(1).getName());
+	
+	}
+	
 }

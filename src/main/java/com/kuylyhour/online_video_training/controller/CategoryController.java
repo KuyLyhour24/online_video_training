@@ -73,9 +73,9 @@ public class CategoryController {
 		categoryService.delete(id);
 		return ResponseEntity.ok().build();
 	}
-	@GetMapping("{id}/course")
+	@GetMapping("course/{id}")
 	public ResponseEntity<?> getCourseByCategoryId(@PathVariable("id") Long id){
-		List<Course> course = courseService.getByCategoryId(id);
+		List<Course> course = categoryService.getCourseByCategoryId(id);
 		List<CourseDTO> list = course.stream()
 		.map(courseMapper::toCourseDTO) //Method Reference or we can use .map(model -> modelMapper.toModelDTO(model))
 		.toList();

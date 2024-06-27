@@ -15,7 +15,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.kuylyhour.online_video_training.entity.Category;
-import com.kuylyhour.online_video_training.helper.CategoryServiceHelper;
+import com.kuylyhour.online_video_training.helper.ServiceHelper;
 
 @DataJpaTest
 public class CategoryRpositoryTest {
@@ -25,13 +25,13 @@ public class CategoryRpositoryTest {
 
 	@BeforeEach
 	public void setUp() {
-		MockitoAnnotations.openMocks(this);
+		MockitoAnnotations.openMocks(this.repository);
 	}
 
 	@Test
 	public void testFindByName() {
 
-		List<Category> categories = CategoryServiceHelper.getCategory();
+		List<Category> categories = ServiceHelper.getCategory();
 		Category category = categories.get(0);
 
 		when(repository.findByName(any())).thenReturn(Optional.of(category));
@@ -43,7 +43,7 @@ public class CategoryRpositoryTest {
 
 	@Test
 	public void testFindByContainingName() {
-		List<Category> categories = CategoryServiceHelper.getCategory();
+		List<Category> categories = ServiceHelper.getCategory();
 
 		when(repository.findByNameContaining("P")).thenReturn(categories);
 

@@ -12,6 +12,4 @@ import com.kuylyhour.online_video_training.entity.Course;
 public interface CourseRepository extends JpaRepository<Course, Long>{
 
 	List<Course> findCourseByCategoryId(Long id);
-	Optional<Course> findByName(String name);
-	List<Course> findByNameContaining(String name);
 }

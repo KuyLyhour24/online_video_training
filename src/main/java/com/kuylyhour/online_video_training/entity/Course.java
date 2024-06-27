@@ -8,12 +8,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NonNull;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @Table(name="courses")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Course {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

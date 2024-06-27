@@ -15,6 +15,7 @@ import com.kuylyhour.online_video_training.exception.ApiException;
 import com.kuylyhour.online_video_training.exception.ResourceNotFoundException;
 import com.kuylyhour.online_video_training.exception.SQLException;
 import com.kuylyhour.online_video_training.repository.CategoryRepository;
+import com.kuylyhour.online_video_training.repository.CourseRepository;
 import com.kuylyhour.online_video_training.service.CategoryService;
 import com.kuylyhour.online_video_training.service.CourseService;
 import com.kuylyhour.online_video_training.service.util.PageUtil;
@@ -29,6 +30,7 @@ public class CategoryServiceImpl implements CategoryService{
 	
 	private final CategoryRepository categoryRepository;
 	private final CourseService courseService;
+	private final CourseRepository courseRepository;
 	
 
 	@Override
@@ -92,4 +94,9 @@ public class CategoryServiceImpl implements CategoryService{
 		return page;
 	}
 
+	@Override
+	public List<Course> getCourseByCategoryId(Long id) {
+		Category category = getById(id);
+		return courseRepository.findCourseByCategoryId(category.getId());
+	}
 }
