@@ -29,60 +29,63 @@ import com.kuylyhour.online_video_training.service.CourseService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("categories")
+@RequestMapping("/categories")
 @RequiredArgsConstructor
 public class CategoryController {
-	
+
 	private final CategoryService categoryService;
-	private CourseService courseService;
 	private final CourseMapper courseMapper;
-	
+
 	@PostMapping
-	public ResponseEntity<?> createCategory(@RequestBody CategoryDTO dto){
+	public ResponseEntity<?> createCategory(@RequestBody CategoryDTO dto) {
 		Category category = CategoryMapper.INSTANCE.toCategory(dto);
 		category = categoryService.create(category);
 		return ResponseEntity.ok(CategoryMapper.INSTANCE.toCategoryDTO(category));
 	}
+
 	@GetMapping("{id}")
-	public ResponseEntity<?> getById(@PathVariable("id") Long id){
+	public ResponseEntity<?> getById(@PathVariable("id") Long id) {
 		Category category = categoryService.getById(id);
 		return ResponseEntity.ok(CategoryMapper.INSTANCE.toCategoryDTO(category));
-	
+
 	}
+
 	@GetMapping("/list")
-	public ResponseEntity<?> getCategory(@RequestParam("name") String name){
+	public ResponseEntity<?> getCategory(@RequestParam("name") String name) {
 		List<CategoryDTO> list = categoryService.getCategory(name).stream()
-				.map(cate->CategoryMapper.INSTANCE.toCategoryDTO(cate))
-				.collect(Collectors.toList());
+				.map(cate -> CategoryMapper.INSTANCE.toCategoryDTO(cate)).collect(Collectors.toList());
 		return ResponseEntity.ok(list);
 	}
+
 	@GetMapping
-	public ResponseEntity<?> getCategory(@RequestParam Map<String, String> params){
+	public ResponseEntity<?> getCategory(@RequestParam Map<String, String> params) {
 		Page<Category> page = categoryService.getCategoryPage(params);
 		PageDTO pageDTO = new PageDTO(page);
 		return ResponseEntity.ok(pageDTO);
 	}
+
 	@PutMapping("{id}")
-	public ResponseEntity<?> updateCategory(@PathVariable("id") Long id, @RequestBody CategoryDTO categoryDTO){
+	public ResponseEntity<?> updateCategory(@PathVariable("id") Long id, @RequestBody CategoryDTO categoryDTO) {
 		Category category = CategoryMapper.INSTANCE.toCategory(categoryDTO);
 		Category update = categoryService.update(category, id);
 		return ResponseEntity.ok(CategoryMapper.INSTANCE.toCategoryDTO(update));
 	}
+
 	@DeleteMapping("delete/{id}")
-	public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id){
+	public ResponseEntity<?> deleteCategory(@PathVariable("id") Long id) {
 		categoryService.delete(id);
 		return ResponseEntity.ok().build();
 	}
+
 	@GetMapping("course/{id}")
-	public ResponseEntity<?> getCourseByCategoryId(@PathVariable("id") Long id){
+	public ResponseEntity<?> getCourseByCategoryId(@PathVariable("id") Long id) {
 		List<Course> course = categoryService.getCourseByCategoryId(id);
-		List<CourseDTO> list = course.stream()
-		.map(courseMapper::toCourseDTO) //Method Reference or we can use .map(model -> modelMapper.toModelDTO(model))
-		.toList();
+		List<CourseDTO> list = course.stream().map(courseMapper::toCourseDTO) // Method Reference or we can use
+																				// .map(model ->
+																			// modelMapper.toModelDTO(model))
+				.toList();
 		return ResponseEntity.ok(list);
-	
+
 	}
-	
-	
 
 }

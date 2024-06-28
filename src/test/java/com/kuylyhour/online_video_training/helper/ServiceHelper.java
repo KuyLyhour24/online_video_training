@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kuylyhour.online_video_training.entity.Category;
 import com.kuylyhour.online_video_training.entity.Course;
+import com.kuylyhour.online_video_training.entity.Level;
 
 public class ServiceHelper {
 	
@@ -36,6 +37,18 @@ public class ServiceHelper {
 			.build();
 	public static List<Course> getCourse(){
 		List<Course> list = List.of(course1,course2);
+		return list;
+	}
+	private static Level level1 = Level.builder()
+			.id(1L)
+			.name("Basic")
+			.build();
+	private static Level level2 = Level.builder()
+			.id(2L)
+			.name("Advanced")
+			.build();
+	public static List<Level> getLevel() {
+		List<Level> list = List.of(level1,level2);
 		return list;
 	}
 }
