@@ -86,7 +86,7 @@ public class CategoryServiceTest {
 
 		when(categoryRepository.findByNameContaining(any())).thenReturn(categories);
 
-		List<Category> category = categoryService.getCategory("");
+		List<Category> category = categoryService.getCategory("p");
 
 		assertEquals("Programming", category.get(0).getName());
 
