@@ -3,5 +3,4 @@ databaseChangeLog:
     - file: db/changelog/001_init_db_structure.yml
   - include:
     - file: db/changelog/002_create_user_table.yml
-  - include:
-    - file: db/changelog/003_create_level_table.yml
+  
