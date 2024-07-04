@@ -36,16 +36,9 @@ public class Video {
 	@Column(name="image_link")
 	private String imageUrl;
 	
-	@Column(name="create_date")
-	private LocalDateTime createDate;
-	
-	@Column(name="modified_date")
-	private LocalDateTime modifiedDate;
-	
-	@Column(name="create_by")
 	private String createBy;
-	
-	@Column(name="modified_by")
-	private String modifiedBy;
+	private String updateBy;
+	private LocalDateTime updateDate;
+	private LocalDateTime createDate;
 
 }

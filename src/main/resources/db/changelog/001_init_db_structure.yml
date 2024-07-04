@@ -3,6 +3,39 @@ databaseChangeLog:
     id: 001_init_db_structure
     author: kuylyhour24@gmail.com
     changes:
+    - createTable:
+        tableName: users
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: username
+            type: VARCHAR(50)
+        - column:
+            name: password
+            type: VARCHAR(50)
+        - column:
+            name: email
+            type: VARCHAR(50)
+        - column:
+            name: phone_number
+            type: Integer
+        - column:
+            name: userGender
+            type: VARCHAR(50)
+        - column:
+            name: photo
+            type: VARCHAR(50)
+        - column:
+            name: userRole
+            type: VARCHAR(50)
+        - column:
+            name: join_date
+            type: DateTime
     
     - createTable:
         tableName: categories
@@ -64,14 +97,14 @@ databaseChangeLog:
             name: image_link
             type: VARCHAR(255)
         - column:
+            name: create_by
+            type: VARCHAR(255)
+        - column:
+            name: update_by
+            type: VARCHAR(255)
+        - column:
             name: create_date
             type: DateTime
         - column:
-            name: modified_date
+            name: update_date
             type: DateTime
-        - column:
-            name: create_by
-            type: VARCHAR(50)
-        - column:
-            name: modified_by
-            type: VARCHAR(50)

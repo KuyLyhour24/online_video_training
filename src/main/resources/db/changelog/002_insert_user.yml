@@ -1,15 +1,12 @@
 databaseChangeLog:
 - changeSet:
-    id: 002_create_user_table
+    id: 002_insert_user
     author: kuylyhour24@gmail.com
     changes:
-    - createTable:
-        tableName: _users
+     - loadData:
+        tableName: users
         columns:
         - column:
-            autoIncrement: true
-            constraints:
-              primaryKey: true
             name: id
             type: BIGINT
         - column:
@@ -19,14 +16,22 @@ databaseChangeLog:
             name: password
             type: VARCHAR(50)
         - column:
+            name: email
+            type: VARCHAR(50)
+        - column:
             name: phone_number
             type: Integer
         - column:
             name: gender
-            type: SMALLINT
+            type: VARCHAR(50)
         - column:
             name: role
-            type: SMALLINT
+            type: VARCHAR(50)
+        - column:
+            name: photo
+            type: VARCHAR(50)
         - column:
             name: join_date
             type: DateTime
+        file: db/data/001-insert-user.csv
+       
