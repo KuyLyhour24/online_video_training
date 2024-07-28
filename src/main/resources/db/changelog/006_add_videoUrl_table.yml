@@ -1,0 +1,26 @@
+databaseChangeLog:
+- changeSet:
+    id: 006_add_videoUrl_table
+    author: kuylyhour24@gmail.com
+    changes:
+    - createTable:
+        tableName: urls
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: name
+            type: VARCHAR(50)
+        - column:
+            name: url
+            type: VARCHAR(255)
+        - column:
+            name: video_id
+            type: BIGINT
+            constraints:
+              - foreignKeyName: fk_videos_urls
+                references: videos(id)

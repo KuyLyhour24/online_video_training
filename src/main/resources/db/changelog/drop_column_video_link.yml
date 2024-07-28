@@ -1,0 +1,13 @@
+databaseChangeLog:
+-  changeSet:
+    id:  dropColumn
+    author:  kuylyhour24@gmail.com
+    changes:
+    -  dropColumn:
+        catalogName:  cat
+        columnName:  id
+        columns:
+        -  column:
+            name:  video_link
+        schemaName:  public
+        tableName:  videos

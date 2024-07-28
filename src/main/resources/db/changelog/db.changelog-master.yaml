@@ -5,5 +5,13 @@ databaseChangeLog:
     - file: db/changelog/002_insert_user.yml
   - include:
     - file: db/changelog/003_add_column_in_users.yml
+  - include: 
+    - file: db/changelog/005_add_level_table.yml
+  - include: 
+    - file: db/changelog/004_add_column_to_videos.yml
+  - include: 
+    - file: db/changelog/006_add_videoUrl_table.yml
+  - include: 
+    - file: db/changelog/drop_column_video_link.yml
   
   

@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name="courses")
+@Table(name = "courses")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,13 +32,10 @@ public class Course {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(name="name")
-	
+	@Column(name = "name")
 	private String name;
-	
 	@ManyToOne
-	@JoinColumn(name="category_id")
+	@JoinColumn(name = "category_id")
 	private Category category;
 
 }
