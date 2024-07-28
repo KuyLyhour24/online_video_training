@@ -11,9 +11,7 @@ import lombok.NonNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseDTO {
-	@NonNull
 	private Long categoryId;
-	@NonNull
 	private String name;
 	
 }

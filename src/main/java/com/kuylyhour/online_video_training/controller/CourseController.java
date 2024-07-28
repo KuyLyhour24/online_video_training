@@ -1,5 +1,7 @@
 package com.kuylyhour.online_video_training.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kuylyhour.online_video_training.dto.CourseDTO;
+import com.kuylyhour.online_video_training.dto.VideoDTO;
 import com.kuylyhour.online_video_training.entity.Course;
+import com.kuylyhour.online_video_training.entity.Video;
 import com.kuylyhour.online_video_training.mapper.CourseMapper;
+import com.kuylyhour.online_video_training.mapper.VideoMapper;
 import com.kuylyhour.online_video_training.service.CourseService;
+import com.kuylyhour.online_video_training.service.VideoService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +29,8 @@ import lombok.RequiredArgsConstructor;
 public class CourseController {
 	
 	private final CourseService courseService;
-	
+	private VideoService videoService;
+	private VideoMapper videoMapper;
 	private final CourseMapper courseMapper;
 	
 	@PostMapping
@@ -49,5 +56,13 @@ public class CourseController {
 		Course course = courseMapper.toCourse(courseDTO);
 		Course update = courseService.update(course, id);
 		return ResponseEntity.ok(courseMapper.toCourseDTO(update));
+	}
+	@GetMapping("{id}/videos")
+	public ResponseEntity<?> getVideo(@PathVariable("id") Long Id){
+		List<Video> courseId = videoService.getVideoByCourseId(Id);
+		List<VideoDTO> list = courseId.stream()
+		.map(videoMapper::toVideoDTO)
+		.toList();
+		return ResponseEntity.ok(list);
 	}
 }

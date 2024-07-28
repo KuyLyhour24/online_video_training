@@ -1,0 +1,17 @@
+databaseChangeLog:
+- changeSet:
+    id: addColumn
+    author: kuylyhour24@gmail.com
+    changes:
+      - addColumn:
+          tableName: videos
+          columns:
+          - column:
+              name: level_id
+              type: BIGINT
+              constraints:
+              - foreignKeyName: fk_levels_videos
+                references: levels(id)
+          - column:
+              name: price
+              type: NUMERIC

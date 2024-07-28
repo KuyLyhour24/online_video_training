@@ -8,13 +8,14 @@ spring:
     hibernate:
     dialect: org.hibernate.dialect.PostgreSQLDialect
     globally_quoted_identifiers: true
-   hibernate:
     ddl-auto: update
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
     servlet:
       load-on-startup: 1
+    converters:
+      preferred-json-mapper: gson
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml

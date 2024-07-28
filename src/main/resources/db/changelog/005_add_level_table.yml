@@ -1,0 +1,17 @@
+databaseChangeLog:
+- changeSet:
+    id: 005_add_level_table
+    author: kuylyhour24@gmail.com
+    changes:
+    - createTable:
+        tableName: levels
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            name: name
+            type: VARCHAR(50)
